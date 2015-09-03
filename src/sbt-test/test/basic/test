@@ -1,0 +1,9 @@
+> show autodocVersion
+
+> + test:compile
+> + test
+$ exists doc/Test1.md
+
+$ delete doc/Test1.md
+
+-$ exists doc/Test1.md
