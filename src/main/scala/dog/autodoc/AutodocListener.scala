@@ -30,16 +30,22 @@ class AutodocListener(var outputDir: File, trimRegex: String) extends TestsListe
   }
 
   private[this] def write() = {
+    if(!outputDir.exists()) IO.createDirectory(outputDir)
     testSuite.value.events.groupBy(e => e.fullyQualifiedName)
       .foreach { case (name, es) => {
-        if(!outputDir.exists()) IO.createDirectory(outputDir)
         val fileName = name.split('.').last.replaceAll(trimRegex, "")
         val f = outputDir / s"$fileName.md"
-        val doc = es.filter(e => e.status == TStatus.Success && e.throwable.isDefined)
-          // XXX
-          .map(_.throwable.get.getMessage)
+        // XXX
+        val doc = es.collect { case e if e.status == TStatus.Success && e.throwable.isDefined =>
+          e.throwable.get.getMessage
+        }
           .mkString("\n\n")
-        IO.write(f, if(f.exists()) "\n\n" + doc else doc, java.nio.charset.Charset.forName("UTF-8"), true)
+        if(!doc.isEmpty) {
+          IO.write(f, if(f.exists()) s"\n\ndoc" else doc, java.nio.charset.Charset.forName("UTF-8"), true)
+          val path = f.absolutePath.replaceFirst(outputDir.absolutePath, "")
+          val toc = Markdown.generateToc(path, doc)
+          IO.write(outputDir / Markdown.tocFileName, toc, java.nio.charset.Charset.forName("UTF-8"), true)
+        }
       }}
   }
 
