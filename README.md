@@ -9,7 +9,7 @@ sbt plugin for [dog-autodoc](https://github.com/pocketberserker/dog-autodoc)
 `project/plugins.sbt`
 
 ```scala
-addSbtPlugin("com.github.pocketberserker" % "sbt-dog-autodoc" % "0.0.1")
+addSbtPlugin("com.github.pocketberserker" % "sbt-dog-autodoc" % "0.1.0")
 ```
 
 `build.sbt`
