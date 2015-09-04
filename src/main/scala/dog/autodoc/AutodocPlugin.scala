@@ -10,10 +10,12 @@ object AutodocPlugin extends AutoPlugin {
     val autodocOutputDirectory = SettingKey[String]("autodocOutputDirectory")
     val autodocClean = TaskKey[Unit]("autodocClean")
     val autodocEnable = SettingKey[Boolean]("autodocEnable")
+    val autodocTrimNameRegex = SettingKey[String]("autodocTrimNameRegex")
 
     object Default {
       val outputDir = "doc"
       val enable = false
+      val trim = "(Test|Spec)$"
     }
 
     val autodocSettings: Seq[Setting[_]] = Seq(
@@ -24,9 +26,10 @@ object AutodocPlugin extends AutoPlugin {
       },
       test <<= (test in Test) dependsOn (autodocClean),
       autodocEnable := Default.enable,
+      autodocTrimNameRegex := Default.trim,
       testListeners ++= {
         if(autodocEnable.value) Seq(
-          new dog.autodoc.AutodocListener(file(autodocOutputDirectory.value))
+          new dog.autodoc.AutodocListener(file(autodocOutputDirectory.value), autodocTrimNameRegex.value)
         )
         else Nil
       },

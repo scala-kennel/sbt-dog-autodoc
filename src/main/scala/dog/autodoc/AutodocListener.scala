@@ -6,7 +6,7 @@ import scala.collection.mutable.ListBuffer
 import scala.util.DynamicVariable
 import testing.{ Event => TEvent, Status => TStatus, OptionalThrowable, TestSelector }
 
-class AutodocListener(var outputDir: File) extends TestsListener {
+class AutodocListener(var outputDir: File, trimRegex: String) extends TestsListener {
 
   class TestSuite(val name: String) {
     import dog._, autodoc._
@@ -33,7 +33,7 @@ class AutodocListener(var outputDir: File) extends TestsListener {
     testSuite.value.events.groupBy(e => e.fullyQualifiedName)
       .foreach { case (name, es) => {
         if(!outputDir.exists()) IO.createDirectory(outputDir)
-        val fileName = name.split('.').last.replaceAll("(Test|Spec)$", "")
+        val fileName = name.split('.').last.replaceAll(trimRegex, "")
         val f = outputDir / s"$fileName.md"
         val doc = es.filter(e => e.status == TStatus.Success && e.throwable.isDefined)
           // XXX
