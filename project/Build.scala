@@ -24,7 +24,7 @@ object build extends Build {
     ),
     ScriptedPlugin.scriptedLaunchOpts ++= Seq(
       "-Dplugin.version=" + version.value,
-      "-Dautodoc.version=0.0.1-SNAPSHOT"
+      "-Dautodoc.version=0.1.0"
     ),
     startYear := Some(2015),
     organization := "com.github.pocketberserker",
