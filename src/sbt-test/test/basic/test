@@ -2,6 +2,7 @@
 
 > + test:compile
 > + test
+-$ exists doc/Old.md
 $ exists doc/Test1.md
 
 $ delete doc/Test1.md

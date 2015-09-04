@@ -7,12 +7,35 @@ object AutodocPlugin extends AutoPlugin {
 
   object autoImport {
     val autodocVersion = SettingKey[String]("autodocVersion")
+    val autodocOutputDirectory = SettingKey[String]("autodocOutputDirectory")
+    val autodocClean = TaskKey[Unit]("autodocClean")
+    val autodocEnable = SettingKey[Boolean]("autodocEnable")
 
-    // TODO: implement Task to clean directory
+    object Default {
+      val outputDir = "doc"
+      val enable = false
+    }
 
     val autodocSettings: Seq[Setting[_]] = Seq(
       testFrameworks += new TestFramework("dog.autodoc.AutodocFramework"),
+      autodocOutputDirectory := Default.outputDir,
+      autodocClean := {
+        Task.deleteFile(baseDirectory.value, autodocOutputDirectory.value)
+      },
+      test <<= (test in Test) dependsOn (autodocClean),
+      autodocEnable := Default.enable,
+      testListeners ++= {
+        if(autodocEnable.value) Seq(
+          new dog.autodoc.AutodocListener(file(autodocOutputDirectory.value))
+        )
+        else Nil
+      },
       libraryDependencies += "com.github.pocketberserker" %% "dog-autodoc" % autodocVersion.value % "test"
     )
+  }
+
+  object Task {
+
+    def deleteFile(base: File, filename: String): Unit = IO.delete(base / filename)
   }
 }

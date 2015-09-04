@@ -8,7 +8,7 @@ scalaVersion := scala211
 
 crossScalaVersions := scala211 :: "2.10.5" :: Nil
 
-testListeners += new dog.autodoc.AutodocListener(file("doc"))
+autodocEnable := true
 
 scalacOptions ++= (
   "-deprecation" ::
