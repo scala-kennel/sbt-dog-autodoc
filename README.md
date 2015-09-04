@@ -17,6 +17,8 @@ addSbtPlugin("com.github.pocketberserker" % "sbt-dog-autodoc" % "0.0.1")
 ```scala
 autodocSettings
 
+testListeners += new dog.autodoc.AutodocListener(file("doc"))
+
 autodocVersion := "0.0.1"
 ```
 
