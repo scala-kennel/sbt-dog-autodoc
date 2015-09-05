@@ -8,11 +8,10 @@ object AutodocPlugin extends AutoPlugin {
   object autoImport {
     val autodocVersion = SettingKey[String]("autodocVersion")
     val autodocOutputDirectory = SettingKey[String]("autodocOutputDirectory")
-    val autodocClean = TaskKey[Unit]("autodocClean")
     val autodocEnable = SettingKey[Boolean]("autodocEnable")
     val autodocTrimNameRegex = SettingKey[String]("autodocTrimNameRegex")
     val autodocToc = SettingKey[Boolean]("autodocToc")
-    val autodocInitializeToc = TaskKey[Unit]("autodocInitializeToc")
+    val autodocInitialize = TaskKey[Unit]("autodocInitialize")
     val autodocMarkdown = SettingKey[Boolean]("autodocMarkdown")
     val autodocHtml = SettingKey[Boolean]("autodocHtml")
 
@@ -28,10 +27,8 @@ object AutodocPlugin extends AutoPlugin {
     val autodocSettings: Seq[Setting[_]] = Seq(
       testFrameworks += new TestFramework("dog.autodoc.AutodocFramework"),
       autodocOutputDirectory := Default.outputDir,
-      autodocClean := {
+      autodocInitialize := {
         if(autodocEnable.value) Task.deleteFile(baseDirectory.value, autodocOutputDirectory.value)
-      },
-      autodocInitializeToc := {
         if(autodocEnable.value && autodocToc.value) {
           val outputDir = file(autodocOutputDirectory.value)
           if(!outputDir.exists()) IO.createDirectory(outputDir)
@@ -39,7 +36,7 @@ object AutodocPlugin extends AutoPlugin {
           IO.write(toc, Markdown.tocTitle)
         }
       },
-      test <<= (test in Test) dependsOn (autodocClean, autodocInitializeToc),
+      test <<= (test in Test) dependsOn (autodocInitialize),
       autodocEnable := Default.enable,
       autodocMarkdown := Default.markdown,
       autodocHtml := Default.html,
