@@ -13,12 +13,16 @@ object AutodocPlugin extends AutoPlugin {
     val autodocTrimNameRegex = SettingKey[String]("autodocTrimNameRegex")
     val autodocToc = SettingKey[Boolean]("autodocToc")
     val autodocInitializeToc = TaskKey[Unit]("autodocInitializeToc")
+    val autodocMarkdown = SettingKey[Boolean]("autodocMarkdown")
+    val autodocHtml = SettingKey[Boolean]("autodocHtml")
 
     object Default {
       val outputDir = "doc"
       val enable = false
       val trim = "(Test|Spec)$"
       val toc = false
+      val markdown = true
+      val html = false
     }
 
     val autodocSettings: Seq[Setting[_]] = Seq(
@@ -37,14 +41,23 @@ object AutodocPlugin extends AutoPlugin {
       },
       test <<= (test in Test) dependsOn (autodocClean, autodocInitializeToc),
       autodocEnable := Default.enable,
+      autodocMarkdown := Default.markdown,
+      autodocHtml := Default.html,
       autodocTrimNameRegex := Default.trim,
       autodocToc := Default.toc,
       testListeners ++= {
         if(autodocEnable.value) Seq(
-          new dog.autodoc.AutodocListener(file(autodocOutputDirectory.value), autodocTrimNameRegex.value)
+          if(autodocMarkdown.value) {
+            Seq(new AutodocMarkdownListener(file(autodocOutputDirectory.value), autodocTrimNameRegex.value))
+          }
+          else Nil,
+          if(autodocHtml.value) {
+            Seq(new AutodocHtmlListener(file(autodocOutputDirectory.value), autodocTrimNameRegex.value))
+          }
+          else Nil
         )
         else Nil
-      },
+      }.flatten,
       libraryDependencies += "com.github.pocketberserker" %% "dog-autodoc" % autodocVersion.value % "test"
     )
   }

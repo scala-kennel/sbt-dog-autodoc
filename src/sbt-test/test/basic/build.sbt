@@ -10,6 +10,7 @@ crossScalaVersions := scala211 :: "2.10.5" :: Nil
 
 autodocEnable := true
 autodocToc := true
+autodocHtml := true
 
 scalacOptions ++= (
   "-deprecation" ::

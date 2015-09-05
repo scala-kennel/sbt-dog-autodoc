@@ -19,6 +19,10 @@ autodocSettings
 
 autodocEnable := true
 
+// optional setting
+autodocToc := true
+autodocHtml := true
+
 autodocVersion := "0.1.1"
 ```
 
