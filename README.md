@@ -19,6 +19,6 @@ autodocSettings
 
 autodocEnable := true
 
-autodocVersion := "0.0.1"
+autodocVersion := "0.1.1"
 ```
 
