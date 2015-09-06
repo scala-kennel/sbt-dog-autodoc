@@ -25,7 +25,7 @@ abstract class AutodocListener extends TestsListener {
 
   override def endGroup(name: String, t: Throwable) = {}
 
-  override def endGroup(name: String, result: TestResult.Value): Unit = {
+  override def endGroup(name: String, result: TestResult.Value) = {
     write(testSuite.value)
   }
 

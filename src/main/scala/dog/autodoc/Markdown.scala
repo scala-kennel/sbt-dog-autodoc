@@ -1,7 +1,7 @@
 package dog
 package autodoc
 
-object Markdown {
+private[autodoc] object Markdown {
 
   val tocTitle = "## Table of Contents\n"
 

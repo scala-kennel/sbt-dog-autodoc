@@ -5,12 +5,15 @@
 -$ exists doc/Old.md
 $ exists doc/toc.md
 $ exists doc/Test1.md
+$ exists doc/toc.html
 $ exists doc/Test1.html
 
 $ delete doc/toc.md
 $ delete doc/Test1.md
+$ delete doc/toc.html
 $ delete doc/Test1.html
 
 -$ exists doc/toc.md
 -$ exists doc/Test1.md
+-$ exists doc/toc.html
 -$ exists doc/Test1.html
