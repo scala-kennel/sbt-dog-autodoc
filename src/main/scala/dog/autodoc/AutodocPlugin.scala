@@ -15,7 +15,7 @@ object AutodocPlugin extends AutoPlugin {
     val autodocMarkdown = SettingKey[Boolean]("autodocMarkdown")
     val autodocHtml = SettingKey[Boolean]("autodocHtml")
 
-    object Default {
+    object AutodocDefault {
       val outputDir = "doc"
       val enable = false
       val trim = "(Test|Spec)$"
@@ -26,7 +26,7 @@ object AutodocPlugin extends AutoPlugin {
 
     val autodocSettings: Seq[Setting[_]] = Seq(
       testFrameworks += new TestFramework("dog.autodoc.AutodocFramework"),
-      autodocOutputDirectory := Default.outputDir,
+      autodocOutputDirectory := AutodocDefault.outputDir,
       autodocInitialize := {
         if(autodocEnable.value) Task.deleteFile(baseDirectory.value, autodocOutputDirectory.value)
         if(autodocEnable.value && autodocToc.value) {
@@ -37,11 +37,11 @@ object AutodocPlugin extends AutoPlugin {
         }
       },
       test <<= (test in Test) dependsOn (autodocInitialize),
-      autodocEnable := Default.enable,
-      autodocMarkdown := Default.markdown,
-      autodocHtml := Default.html,
-      autodocTrimNameRegex := Default.trim,
-      autodocToc := Default.toc,
+      autodocEnable := AutodocDefault.enable,
+      autodocMarkdown := AutodocDefault.markdown,
+      autodocHtml := AutodocDefault.html,
+      autodocTrimNameRegex := AutodocDefault.trim,
+      autodocToc := AutodocDefault.toc,
       testListeners ++= {
         if(autodocEnable.value) Seq(
           if(autodocMarkdown.value) {
