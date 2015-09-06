@@ -19,7 +19,10 @@ final class AutodocMarkdownListener(var outputDir: File, trimRegex: String) exte
           .mkString("\n\n")
         if(!doc.isEmpty) {
           IO.write(f, if(f.exists()) s"\n\n$doc" else doc, java.nio.charset.Charset.forName("UTF-8"), true)
-          val path = f.absolutePath.replaceFirst(outputDir.absolutePath, "")
+          val dirPath =
+            if(outputDir.absolutePath.endsWith("/")) outputDir.absolutePath
+            else outputDir.absolutePath + "/"
+          val path = f.absolutePath.replaceFirst(dirPath, "")
           val toc = Markdown.generateToc(path, doc)
           IO.write(outputDir / Markdown.tocFileName, toc, java.nio.charset.Charset.forName("UTF-8"), true)
         }
