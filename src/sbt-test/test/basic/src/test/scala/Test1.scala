@@ -29,7 +29,7 @@ object Test1 extends Dog {
       url = "http://localhost/person/1"
     )).leftMap(httpz.Error.http).nel
 
-  val `GET /person/:id` = autodoc.apply[Person](interpreter(Person("Alice", 17).toString, 200), getPerson) { res =>
+  val `GET /person/:id` = Autodoc[Person](interpreter(Person("Alice", 17).toString, 200), getPerson) { res =>
     Assert.equal(200, res.status)
   }
 }
