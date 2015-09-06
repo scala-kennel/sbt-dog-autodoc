@@ -32,7 +32,7 @@ final class AutodocHtmlListener(var outputDir: File, trimRegex: String) extends 
       .filter(file => file.isFile && file.absolutePath.endsWith(".html"))
       .map(file => {
         val path = file.absolutePath.replaceFirst(outputDir.absolutePath, "")
-        val lines = Files.readAllLines(file.toPath).asScala
+        val lines = Files.readAllLines(file.toPath, utf8).asScala
         IO.write(file, Html.appendTemplate(lines.mkString("\n")), utf8)
         Html.generateTocBody(path, lines.filter(_.startsWith("<h2>")))
       })
