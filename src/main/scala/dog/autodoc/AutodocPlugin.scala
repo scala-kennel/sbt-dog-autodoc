@@ -25,7 +25,15 @@ object AutodocPlugin extends AutoPlugin {
     }
 
     val autodocSettings: Seq[Setting[_]] = Seq(
-      testFrameworks += new TestFramework("dog.autodoc.AutodocFramework"),
+      testFrameworks := testFrameworks.value
+        .map(f => {
+          val names = f.implClassNames.filter(_ != "dog.DogFramework")
+          if(names.isEmpty) None
+          else Some(new TestFramework(names: _*))
+        })
+        .collect { case Some(f) => f }
+        ++ Seq(TestFramework("dog.autodoc.AutodocFramework"))
+      ,
       autodocOutputDirectory := AutodocDefault.outputDir,
       autodocInitialize := {
         if(autodocEnable.value) Task.deleteFile(baseDirectory.value, autodocOutputDirectory.value)
