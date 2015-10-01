@@ -13,7 +13,7 @@ final case class FakeInterpreter(
     Response(body, status, headers)
 }
 
-object Test1 extends Dog {
+object Test1 extends DogAutodoc {
 
   def str(value: String) = new ByteArray(value.getBytes())
 
