@@ -30,7 +30,7 @@ object build extends Build {
     organization := "com.github.pocketberserker",
     name := "sbt-dog-autodoc",
     description := "sbt plugin for dog-autodoc",
-    homepage := Some(url("https://github.com/pocketberserker/sbt-dog-autodoc")),
+    homepage := Some(url("https://github.com/scala-kennel/sbt-dog-autodoc")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
     pomPostProcess := { node =>
       import scala.xml._
@@ -51,8 +51,8 @@ object build extends Build {
         </developer>
       </developers>
       <scm>
-        <url>git@github.com:pocketberserker/sbt-dog-autodoc.git</url>
-        <connection>scm:git:git@github.com:pocketberserker/sbt-dog-autodoc.git</connection>
+        <url>git@github.com:scala-kennel/sbt-dog-autodoc.git</url>
+        <connection>scm:git:git@github.com:scala-kennel/sbt-dog-autodoc.git</connection>
         <tag>{if(isSnapshot.value) gitHash else { "v" + version.value }}</tag>
       </scm>
     ),
