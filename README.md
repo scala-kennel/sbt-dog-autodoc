@@ -23,6 +23,6 @@ autodocEnable := true
 autodocToc := true
 autodocHtml := true
 
-autodocVersion := "0.1.4"
+autodocVersion := "0.2.0"
 ```
 
