@@ -13,7 +13,7 @@ final case class FakeInterpreter(
     Response(body, status, headers)
 }
 
-object Test1 extends DogAutodoc {
+object Test1 extends DogAutodoc with Assert {
 
   def str(value: String) = new ByteArray(value.getBytes())
 
@@ -30,7 +30,7 @@ object Test1 extends DogAutodoc {
     )).leftMap(httpz.Error.http).nel
 
   val `GET /person/:id` = Autodoc[Person](interpreter(Person("Alice", 17).toString, 200), getPerson) { res =>
-    Assert.equal(200, res.status)
+    assert.equal(200, res.status)
   }
 }
 

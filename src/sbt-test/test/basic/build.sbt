@@ -8,7 +8,7 @@ fullResolvers ~= {_.filterNot(_.name == "jcenter")}
 
 scalaVersion := scala211
 
-crossScalaVersions := scala211 :: "2.10.5" :: Nil
+crossScalaVersions := scala211 :: "2.10.5" :: "2.12.0" :: Nil
 
 autodocEnable := true
 autodocToc := true
