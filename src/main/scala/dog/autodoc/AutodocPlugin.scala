@@ -44,7 +44,7 @@ object AutodocPlugin extends AutoPlugin {
           IO.write(toc, Markdown.tocTitle)
         }
       },
-      test <<= (test in Test) dependsOn (autodocInitialize),
+      test := ((test in Test) dependsOn (autodocInitialize)).value,
       autodocEnable := AutodocDefault.enable,
       autodocMarkdown := AutodocDefault.markdown,
       autodocHtml := AutodocDefault.html,
